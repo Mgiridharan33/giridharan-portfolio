@@ -266,16 +266,17 @@
     width: 100%;
     height: auto;
     min-height: 0;
-    perspective: none;
+    perspective: 980px;
   }
 
   .hero-portrait-frame {
-    width: 100%;
+    width: min(100%, 420px);
     height: auto;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 3 / 2.15;
     justify-content: center;
-    transform: none;
-    transition: none;
+    transform: rotateX(var(--pointer-y, 0deg)) rotateY(var(--pointer-x, 0deg));
+    transition: transform 350ms cubic-bezier(0.2, 0.75, 0.25, 1);
+    margin: 0 auto;
   }
 
   .hero-portrait {
@@ -286,17 +287,22 @@
     object-position: center;
     border: 0;
     border-radius: 8px;
-    transform: none;
+    transform: rotateX(3deg) rotateY(-6deg);
     filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.28));
     animation: hero-mobile-artwork-float 6s ease-in-out infinite;
   }
 
   .hero-glow-ring {
-    display: none;
+    display: block;
+    inset: 11% 8% 12% 9%;
+    opacity: 0.95;
+    box-shadow: 0 0 18px rgba(79, 70, 229, 0.7), inset 0 0 18px rgba(74, 222, 128, 0.15);
   }
 
   .hero-glow-ring-two {
-    display: none;
+    inset: 18% 16% 18% 16%;
+    display: block;
+    opacity: 0.85;
   }
 
   .hero-mobile-profile {
@@ -327,30 +333,29 @@
   }
 
   .hero-tech-icons {
-    display: none;
+    display: block;
+    opacity: 1;
   }
 
   .tech-chip {
-    width: 34px;
-    border-radius: 9px;
+    width: clamp(30px, 7vw, 50px);
+    border-radius: 10px;
     animation-duration: 7s;
+    opacity: 0.96;
   }
 
-  .chip-1,
-  .chip-2,
-  .chip-3,
-  .chip-4,
-  .chip-5,
-  .chip-6,
-  .chip-8,
-  .chip-11,
-  .chip-12 {
-    display: none;
-  }
-
-  .chip-7 { left: 3%; bottom: 7%; }
-  .chip-9 { left: 42%; bottom: 3%; right: auto; }
-  .chip-10 { left: 42%; top: 3%; }
+  .chip-1 { top: 10%; left: 14%; }
+  .chip-2 { top: 24%; left: 4%; }
+  .chip-3 { top: 12%; right: 10%; }
+  .chip-4 { top: 36%; right: 3%; }
+  .chip-5 { bottom: 14%; right: 8%; }
+  .chip-6 { bottom: 10%; left: 38%; }
+  .chip-7 { bottom: 12%; left: 10%; }
+  .chip-8 { top: 48%; right: 3%; }
+  .chip-9 { bottom: 31%; right: 0%; }
+  .chip-10 { top: 4%; left: 45%; }
+  .chip-11 { bottom: 31%; left: 3%; }
+  .chip-12 { top: 64%; right: 16%; }
 
   .hero-kicker {
     margin-bottom: 1rem;

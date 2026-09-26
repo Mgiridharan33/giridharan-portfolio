@@ -9,12 +9,29 @@ const allowedOrigins = new Set(
   [process.env.CLIENT_URL, "http://localhost:5173", "http://localhost:5174"].filter(Boolean)
 );
 
+function isAllowedOrigin(origin) {
+  if (!origin || allowedOrigins.has(origin)) return true;
+
+  try {
+    const parsedOrigin = new URL(origin);
+    return (
+      parsedOrigin.protocol === "https:" &&
+      parsedOrigin.hostname.startsWith("giridharan-portfolio") &&
+      parsedOrigin.hostname.endsWith(".vercel.app")
+    );
+  } catch {
+    return false;
+  }
+}
+
 // Allow the frontend origin to call this API
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.has(origin)) return callback(null, true);
-      return callback(new Error("Origin is not allowed by CORS"));
+      if (isAllowedOrigin(origin)) return callback(null, true);
+      const error = new Error("Origin is not allowed by CORS");
+      error.status = 403;
+      return callback(error);
     },
   })
 );
@@ -43,7 +60,9 @@ app.use((req, res) => {
 // Central error handler — never leak internals (e.g. SMTP credentials) to the client
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err.message);
-  res.status(500).json({ message: "Something went wrong. Please try again." });
+  const status = err.status === 403 ? 403 : 500;
+  const message = status === 403 ? err.message : "Something went wrong. Please try again.";
+  res.status(status).json({ message });
 });
 
 app.listen(PORT, () => {

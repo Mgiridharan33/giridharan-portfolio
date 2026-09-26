@@ -26,6 +26,13 @@ app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Portfolio API is running"
+  });
+});
+
 app.use("/api/contact", contactRouter);
 
 // Fallback for unknown routes

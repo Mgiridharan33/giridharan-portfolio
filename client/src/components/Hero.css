@@ -247,7 +247,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 720px) {
   .hero {
     min-height: auto;
     align-items: flex-start;
@@ -396,6 +396,37 @@
 
   .hero-scroll-cue {
     bottom: 1.1rem;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 720px) {
+  .hero-visual,
+  .hero-portrait-frame {
+    height: 248px;
+    min-height: 248px;
+  }
+
+  .hero-portrait {
+    width: 42%;
+    max-width: 230px;
+  }
+
+  .hero-mobile-profile {
+    width: 53%;
+    padding-left: 1.2rem;
+  }
+
+  .hero-mobile-profile strong {
+    font-size: 1.15rem;
+  }
+
+  .hero-mobile-profile > span:not(.hero-mobile-profile-label) {
+    font-size: 0.82rem;
+  }
+
+  .tech-chip {
+    width: 42px;
+    border-radius: 10px;
   }
 }
 

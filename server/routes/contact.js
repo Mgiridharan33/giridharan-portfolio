@@ -8,6 +8,10 @@ const MAX_MESSAGE_LENGTH = 2000;
 const MAX_NAME_LENGTH = 100;
 const MAX_SUBJECT_LENGTH = 150;
 
+function getEnv(name) {
+  return (process.env[name] || "").trim();
+}
+
 function validateContactPayload({ name, email, subject, message }) {
   const errors = [];
 
@@ -30,13 +34,16 @@ function validateContactPayload({ name, email, subject, message }) {
 
 // Build the transporter lazily so a missing .env doesn't crash the whole server on boot
 function buildTransporter() {
+  const smtpHost = getEnv("SMTP_HOST");
+  const smtpPort = Number(getEnv("SMTP_PORT")) || 587;
+
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT) || 587,
-    secure: Number(process.env.SMTP_PORT) === 465,
+    host: smtpHost,
+    port: smtpPort,
+    secure: smtpPort === 465,
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD,
+      user: getEnv("SMTP_USER"),
+      pass: getEnv("SMTP_PASSWORD"),
     },
   });
 }
@@ -44,12 +51,16 @@ function buildTransporter() {
 router.post("/", async (req, res) => {
   const { name, email, subject, message } = req.body || {};
 
+  const smtpUser = getEnv("SMTP_USER");
+  const smtpPassword = getEnv("SMTP_PASSWORD");
+  const contactEmail = getEnv("CONTACT_EMAIL");
+
   const errors = validateContactPayload({ name, email, subject, message });
   if (errors.length > 0) {
     return res.status(400).json({ message: errors[0], errors });
   }
 
-  if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD || !process.env.CONTACT_EMAIL) {
+  if (!smtpUser || !smtpPassword || !contactEmail) {
     console.error("Missing SMTP configuration in .env");
     return res.status(503).json({ message: "The contact form is not configured on the server yet." });
   }
@@ -63,8 +74,8 @@ router.post("/", async (req, res) => {
     const replyUrl = `mailto:${encodeURIComponent(email.trim())}?subject=${encodeURIComponent(`Re: ${subject.trim()}`)}`;
 
     await transporter.sendMail({
-      from: `"Portfolio Contact Form" <${process.env.SMTP_USER}>`,
-      to: process.env.CONTACT_EMAIL,
+      from: `"Portfolio Contact Form" <${smtpUser}>`,
+      to: contactEmail,
       replyTo: email.trim(),
       subject: `New portfolio enquiry: ${subject.trim()}`,
       text: [

@@ -1,0 +1,446 @@
+.scene3d {
+  overflow: hidden;
+}
+
+.scene3d-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+
+.scene3d-text {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-width: 0;
+}
+
+.scene3d-eyebrow {
+  margin-bottom: 0.75rem;
+  color: var(--accent);
+  font: 0.7rem var(--font-mono);
+  letter-spacing: 0.12em;
+}
+
+.scene3d-text .section-heading {
+  margin-bottom: 1rem;
+}
+
+.scene3d-text .section-heading h2 {
+  max-width: 22ch;
+}
+
+.scene3d-text .section-sub {
+  max-width: 68ch;
+  margin-bottom: 2rem;
+  line-height: 1.75;
+}
+
+.scene3d-stage {
+  position: relative;
+  isolation: isolate;
+  width: min(100% - 3rem, 1280px);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(176, 197, 218, 0.16);
+  border-radius: 10px;
+  background:
+    radial-gradient(ellipse at 50% 58%, rgba(43, 119, 136, 0.13), transparent 58%),
+    linear-gradient(145deg, rgba(19, 25, 36, 0.92), rgba(9, 12, 19, 0.96));
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28), inset 0 1px rgba(255, 255, 255, 0.035);
+}
+
+:root[data-theme="light"] .scene3d-stage {
+  border-color: rgba(30, 61, 73, 0.14);
+  background:
+    radial-gradient(ellipse at 50% 58%, rgba(8, 127, 117, 0.09), transparent 60%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(232, 239, 241, 0.98));
+  box-shadow: 0 24px 64px rgba(33, 57, 65, 0.12), inset 0 1px rgba(255, 255, 255, 0.9);
+}
+
+.scene3d-stage-header,
+.scene3d-stage-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.35rem;
+}
+
+.scene3d-stage-header {
+  border-bottom: 1px solid rgba(176, 197, 218, 0.11);
+}
+
+.scene3d-stage-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+}
+
+.scene3d-stage-index,
+.scene3d-stage-status,
+.scene3d-stage-stack {
+  color: var(--text-faint);
+  font: 0.63rem var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+.scene3d-stage-title {
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.scene3d-stage-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #b7c4d3;
+}
+
+.scene3d-stage-status > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #57d6b2;
+  box-shadow: 0 0 12px rgba(87, 214, 178, 0.55);
+}
+
+.scene3d-canvas-wrap {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-width: 0;
+  height: clamp(390px, 43vw, 540px);
+}
+
+.scene3d-canvas-wrap::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 10% 12% 8%;
+  background: radial-gradient(ellipse, rgba(37, 99, 112, 0.22), rgba(37, 99, 112, 0) 68%);
+  filter: blur(28px);
+  pointer-events: none;
+}
+
+.scene3d-canvas-wrap::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 5%;
+  right: 5%;
+  bottom: 0;
+  height: 34%;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.16) 1px, transparent 1px);
+  background-size: 46px 30px;
+  transform: perspective(240px) rotateX(58deg) scale(1.2);
+  transform-origin: bottom center;
+  opacity: 0.32;
+  mask-image: linear-gradient(to top, black, transparent 90%);
+  pointer-events: none;
+}
+
+.dev-scene {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.scene3d-desktop-visual {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.scene3d-desktop-rail {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: 3.5%;
+  width: 21%;
+  max-width: 270px;
+  padding: 0.15rem 0 0.15rem 1.15rem;
+  border-left: 1px solid rgba(94, 234, 212, 0.48);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.scene3d-rail-eyebrow,
+.scene3d-rail-stack > span {
+  color: #7c91a2;
+  font: 0.58rem var(--font-mono);
+  letter-spacing: 0.1em;
+}
+
+.scene3d-desktop-rail h3 {
+  margin: 0.75rem 0 1.2rem;
+  color: #e7edf2;
+  font-size: 1.08rem;
+  line-height: 1.35;
+}
+
+.scene3d-rail-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.scene3d-rail-list > div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.scene3d-rail-list > div > span {
+  color: #5eead4;
+  font: 0.62rem var(--font-mono);
+}
+
+.scene3d-rail-list p {
+  color: #b7c4cf;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.scene3d-rail-stack {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1.2rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(176, 197, 218, 0.14);
+}
+
+.scene3d-rail-stack strong {
+  color: #dce5ea;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.scene3d-mobile-visual {
+  display: none;
+}
+
+.scene3d-fallback {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+}
+
+.scene3d-stage-footer {
+  min-height: 56px;
+  border-top: 1px solid rgba(176, 197, 218, 0.11);
+}
+
+.scene3d-domains {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.scene3d-domains span {
+  padding: 0.28rem 0.55rem;
+  border: 1px solid rgba(176, 197, 218, 0.12);
+  border-radius: 4px;
+  color: #bdc8d6;
+  font-size: 0.68rem;
+}
+
+.scene3d-stage-stack {
+  color: #8c9caf;
+}
+
+:root[data-theme="light"] .scene3d-stage-header,
+:root[data-theme="light"] .scene3d-stage-footer {
+  border-color: rgba(30, 61, 73, 0.12);
+}
+
+:root[data-theme="light"] .scene3d-stage-title,
+:root[data-theme="light"] .scene3d-desktop-rail h3,
+:root[data-theme="light"] .scene3d-rail-list p,
+:root[data-theme="light"] .scene3d-rail-stack strong {
+  color: #243640;
+}
+
+:root[data-theme="light"] .scene3d-stage-index,
+:root[data-theme="light"] .scene3d-stage-status,
+:root[data-theme="light"] .scene3d-stage-stack,
+:root[data-theme="light"] .scene3d-rail-eyebrow,
+:root[data-theme="light"] .scene3d-rail-stack > span {
+  color: #60727c;
+}
+
+:root[data-theme="light"] .scene3d-domains span {
+  border-color: rgba(30, 61, 73, 0.16);
+  color: #465a65;
+}
+
+:root[data-theme="light"] .scene3d-rail-stack {
+  border-color: rgba(30, 61, 73, 0.14);
+}
+
+@media (max-width: 720px) {
+  .scene3d-text .section-sub {
+    margin-bottom: 1.5rem;
+  }
+
+  .scene3d-stage {
+    width: calc(100% - 2rem);
+  }
+
+  .scene3d-stage-header,
+  .scene3d-stage-footer {
+    padding: 0.75rem;
+  }
+
+  .scene3d-stage-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .scene3d-stage-index,
+  .scene3d-stage-status,
+  .scene3d-stage-stack {
+    font-size: 0.55rem;
+  }
+
+  .scene3d-canvas-wrap {
+    height: auto;
+    min-height: 0;
+    padding: 0.75rem 0.65rem 1rem;
+  }
+
+  .scene3d-desktop-visual {
+    display: none;
+  }
+
+  .scene3d-mobile-visual {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1.5 / 1;
+    margin: 0 auto;
+    perspective: 900px;
+  }
+
+  .scene3d-mobile-monitor {
+    position: absolute;
+    top: 4%;
+    right: 0;
+    width: 84%;
+    padding: 7px 7px 0;
+    border: 1px solid rgba(177, 199, 224, 0.45);
+    border-radius: 9px 9px 3px 3px;
+    background: linear-gradient(145deg, #202b3a, #0d131e 60%);
+    box-shadow: 0 20px 38px rgba(0, 0, 0, 0.4), 0 0 28px rgba(58, 172, 180, 0.1);
+    transform: rotateY(-4deg) rotateX(1deg);
+  }
+
+  .scene3d-mobile-monitor-bar {
+    height: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+  }
+
+  .scene3d-mobile-monitor-bar span {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #738196;
+  }
+
+  .scene3d-mobile-monitor img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: contain;
+    background: #0b1018;
+  }
+
+  .scene3d-mobile-monitor-base {
+    width: 26%;
+    height: 12px;
+    margin: 0 auto;
+    background: linear-gradient(#3c4859, #202a37);
+    clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
+  }
+
+  .scene3d-mobile-phone {
+    position: absolute;
+    z-index: 2;
+    left: 1%;
+    bottom: 5%;
+    width: clamp(82px, 25vw, 108px);
+    padding: 10px 4px 5px;
+    border: 1px solid rgba(192, 207, 228, 0.72);
+    border-radius: 15px;
+    background: linear-gradient(145deg, #354356, #0a0f17 36%);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.55), 0 0 18px rgba(84, 174, 199, 0.14);
+    transform: rotateY(5deg) rotateZ(-2deg);
+  }
+
+  .scene3d-mobile-phone-speaker {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    width: 16px;
+    height: 2px;
+    border-radius: 2px;
+    background: #657185;
+    transform: translateX(-50%);
+  }
+
+  .scene3d-mobile-phone img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 768 / 1376;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #080b12;
+  }
+
+  .scene3d-canvas-wrap::after {
+    display: none;
+  }
+
+  .scene3d-stage-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .scene3d-desktop-rail {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .scene3d-stage {
+    width: calc(100% - 1.25rem);
+  }
+
+  .scene3d-mobile-monitor {
+    top: 3%;
+    width: 82%;
+  }
+
+  .scene3d-domains {
+    gap: 0.3rem;
+  }
+
+  .scene3d-domains span {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.62rem;
+  }
+}

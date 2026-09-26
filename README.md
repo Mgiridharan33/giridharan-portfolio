@@ -42,6 +42,10 @@ cp server/.env.example server/.env
 VITE_API_URL=http://localhost:5000/api
 ```
 
+For the deployed Vercel frontend, set `VITE_API_URL` to
+`https://giridharan-portfolio-api.onrender.com/api` in the Vercel project
+environment settings, then redeploy the frontend.
+
 `server/.env`
 ```
 PORT=5000
@@ -129,16 +133,16 @@ shouldn't need to touch the components themselves for content changes.
 1. Push this repo to GitHub.
 2. Import the `client` folder as the project root in Vercel/Netlify.
 3. Build command: `npm run build` — Output directory: `dist`.
-4. Set the environment variable `VITE_API_URL` to your deployed backend's
-   URL, e.g. `https://your-backend.onrender.com/api`.
+4. Set `VITE_API_URL` to `https://giridharan-portfolio-api.onrender.com/api`
+   in Vercel's project environment settings, then redeploy.
 
 **Backend (Render or similar):**
 1. Import the `server` folder as the project root.
 2. Build command: `npm install` — Start command: `npm start`.
 3. Set the environment variables from `server/.env.example` in the
    host's dashboard (never commit the real `.env` file).
-4. Update `CLIENT_URL` to your deployed frontend's URL, e.g.
-   `https://your-portfolio.vercel.app`, so CORS allows it.
+4. Set `CLIENT_URL` to the exact deployed frontend origin (scheme + hostname,
+   no path), for example `https://your-portfolio.vercel.app`, so CORS allows it.
 
 After both are deployed, redeploy the frontend once `VITE_API_URL` points
 at the live backend.

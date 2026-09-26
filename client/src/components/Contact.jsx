@@ -5,7 +5,7 @@ import SectionWrapper from "./SectionWrapper.jsx";
 import { personalInfo } from "../data/portfolioData.js";
 import "./Contact.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").replace(/\/+$/, "");
 
 const INITIAL_FORM = { name: "", email: "", subject: "", message: "" };
 

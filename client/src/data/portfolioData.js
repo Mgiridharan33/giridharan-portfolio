@@ -15,7 +15,7 @@ export const personalInfo = {
   email: "murugasangiridharan@gmail.com",
   linkedin: "https://linkedin.com/in/giridharan08",
   github: "https://github.com/Mgiridharan33",
-  resumePath: "/resume/GiridharanM.pdf",
+  resumePath: "/resume/Giridharan_M.pdf",
 };
 
 export const heroContent = {

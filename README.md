@@ -75,10 +75,10 @@ same way — just change `SMTP_HOST` and `SMTP_PORT` accordingly.
 Place your PDF at:
 
 ```
-client/public/resume/GiridharanM.pdf
+client/public/resume/Giridharan_M.pdf
 ```
 
-The "Download Resume" buttons already point at `/resume/GiridharanM.pdf`.
+The "Download Resume" buttons already point at `/resume/Giridharan_M.pdf`.
 
 ## 4. Run locally
 
